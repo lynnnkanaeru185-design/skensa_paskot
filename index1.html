@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Drinkss Team - Es Bucin</title>
+<style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+    min-height: 100vh;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  ul {
+    list-style: none;
+    padding: 0; margin: 0;
+  }
+  button {
+    cursor: pointer;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(5, 1, 15, 0.95);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px;
+  }
+  nav .logo {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #d6336c;
+  }
+  nav .logo img {
+    height: 40px;
+    margin-right: 10px;
+  }
+  nav ul {
+    display: flex;
+    margin-left: auto;
+  }
+  nav ul li {
+    margin-left: 20px;
+  }
+  nav ul li a {
+    font-weight: 600;
+    color: #e0d5d5;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  nav ul li a:hover, nav ul li a.active {
+    background-color: #d6336c;
+    color: rgb(255, 255, 255);
+  }
+
+  #home {
+    height: 200vh;
+    background: url('ze2.jpg') no-repeat center center/cover;
+    color: rgb(255, 255, 255);
+    padding: 100px 20px 40px 20px;
+    position: relative;
+    text-shadow: 0 0 10px rgba(0,0,0,0.7);
+  }
+  #home .logo-container {
+    position: fixed;
+    top: 10px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    z-index: 1100;
+  }
+  #home .logo-container img {
+    height: 50px;
+    transition: all 0.3s ease;
+  }
+  #home .scroll-text {
+    margin-left: 10px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #d6336c;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+  }
+  #home.scrolled .scroll-text {
+    opacity: 1;
+  }
+  #home h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-weight: 900;
+  }
+  #home p {
+    max-width: 600px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  #home h2 {
+    margin-top: 40px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #d6336c;
+  }
+  #home ul {
+    margin-top: 10px;
+    max-width: 600px;
+  }
+  #home ul li {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+  }
+  #home .highlight {
+    color: #d6336c;
+    font-weight: 700;
+  }
+
+  main {
+    padding: 80px 20px 40px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  #menu ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 20px;
+  }
+  #menu li {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(39, 161, 189, 0.838);
+    background: #fff0f6;
+  }
+  #menu li h3 {
+    margin: 10px 0 5px 0;
+    color: #d6336c;
+  }
+  #menu li p {
+    margin: 0 0 10px 0;
+    font-weight: 600;
+    color: #555;
+  }
+  #menu li button {
+    background-color: #d6336c;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 700;
+    transition: background-color 0.3s;
+  }
+  #menu li button:hover {
+    background-color: #a0274a;
+  }
+
+  /* Keranjang */
+  #cart table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  #cart th, #cart td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  #cart th {
+    background-color: #d6336c;
+    color: white;
+  }
+  #cart button {
+    background-color: #d6336c;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    margin: 0 3px;
+  }
+  #cart button:hover {
+    background-color: #a0274a;
+  }
+  #cart .empty {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+    margin-top: 20px;
+  }
+  #cart .total {
+    margin-top: 15px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-align: right;
+  }
+  #cart .btn-pay {
+    margin-top: 15px;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 700;
+    float: right;
+  }
+  #cart .btn-pay:hover {
+    background-color: #1e7e34;
+  }
+
+  #payment {
+    max-width: 400px;
+    margin: 0 auto;
+    background: #fff0f6;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgb(214 51 108 / 0.3);
+  }
+  #payment h2 {
+    color: #d6336c;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  #payment label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  #payment select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  #payment button {
+    background-color: #d6336c;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 700;
+    width: 100%;
+  }
+  #payment button:hover {
+    background-color: #a0274a;
+  }
+  #payment .status {
+    margin-top: 15px;
+    font-weight: 700;
+    text-align: center;
+  }
+  #payment .status.pending {
+    color: #d6336c;
+  }
+  #payment .status.success {
+    color: #28a745;
+  }
+
+  #history table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  #history th, #history td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  #history th {
+    background-color: #d6336c;
+    color: white;
+  }
+  #history .empty {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+    margin-top: 20px;
+  }
+  #history .receipt {
+    text-align: left;
+    font-size: 0.9rem;
+    background: #fff0f6;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 5px;
+    white-space: pre-wrap;
+    font-family: monospace;
+  }
+
+  @media (max-width: 600px) {
+    nav ul {
+      display: none;
+    }
+    nav .menu-toggle {
+      display: block;
+      margin-left: auto;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #d6336c;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <img src="ze1.jpg" alt="Drinkss Team Logo an ice cream cup symbolizing the Drinkss Team brand for frozen beverages"/>
+      Drinkss Team
+  </div>
+  <ul id="nav-links">
+    <li><a href="#home" data-page="home" class="active">Home</a></li>
+    <li><a href="#menu" data-page="menu">Menu</a></li>
+    <li><a href="#cart" data-page="cart">Keranjang</a></li>
+    <li><a href="#payment" data-page="payment">Pembayaran</a></li>
+    <li><a href="#history" data-page="history">Riwayat</a></li>
+  </ul>
+</nav>
+
+<section id="home" class="page">
+  <div class="logo-container">
+    <img src="ze1.jpg"/>
+    <div class="scroll-text"></div>
+  </div>
+  <h1>Es Bucin</h1>
+  <p>Es Bucin adalah minuman kekinian yang bukan cuma bikin tenggorokan adem, tapi juga bikin hati adem. Dengan paduan rasa manis, segar, dan sedikit unik kayak perasaan jatuh cinta pertama, Es Bucin siap nemenin hari-hari kamu biar makin berwarna.</p>
+  <h2>[Star Sparkles] Keunggulan Es Bucin</h2>
+  <ul>
+    <li><span class="highlight">Rasa Unik & Kekinian:</span> Campuran manis, segar, dan creamy yang nggak ada duanya.</li>
+    <li><span class="highlight">Bikin Mood Naik:</span> Cocok diminum pas nongkrong, belajar, atau sekadar healing tipis-tipis.</li>
+    <li><span class="highlight">Penyajian Estetik:</span> Disajikan dengan warna cantik yang Instagrammable, bikin auto pengen foto dulu sebelum minum.</li>
+    <li><span class="highlight">Harga Ramah Kantong:</span> Enak, segar, dan tetap terjangkau buat semua kalangan.</li>
+  </ul>
+  <h2>[Lightbulb] Apa sih yang bikin Es Bucin beda?</h2>
+  <p>Beda dari minuman es biasa, Es Bucin hadir dengan konsep “minuman rasa cinta”. Setiap seruputannya punya cerita—dari manisnya rasa hingga dinginnya es yang bikin kangen. Es Bucin bukan cuma minuman, tapi juga pengalaman yang bisa bikin momen sederhana jadi lebih berkesan.</p>
+</section>
+
+<section id="menu" class="page" style="display:none;">
+  <main>
+    <h2>Menu Minuman</h2>
+    <ul id="menu-list"></ul>
+  </main>
+</section>
+
+<section id="cart" class="page" style="display:none;">
+  <main>
+    <h2>Keranjang Belanja</h2>
+    <div id="cart-content"></div>
+  </main>
+</section>
+
+<section id="payment" class="page" style="display:none;">
+  <main>
+    <h2>Proses Pembayaran</h2>
+    <form id="payment-form">
+      <label for="payment-method">Pilih Metode Pembayaran:</label>
+      <select id="payment-method" required>
+        <option value="" disabled selected>-- Pilih Metode --</option>
+        <option value="qris">QRIS</option>
+        <option value="transfer">Transfer Bank</option>
+        <option value="ewallet">E-Wallet</option>
+      </select>
+      <button type="submit">Bayar Sekarang</button>
+    </form>
+    <div id="payment-status" class="status"></div>
+  </main>
+</section>
+
+<section id="history" class="page" style="display:none;">
+  <main>
+    <h2>Riwayat Transaksi</h2>
+    <div id="history-content"></div>
+  </main>
+</section>
+<script>
+  const menuItems = [
+    {id: 'strawberry', name: 'Es Bucin Strawberry', price: 10000,img:'strawberry.jpg' },
+    {id: 'anggur', name: 'Es Bucin Anggur', price: 10000,img:'anggur.jpg' },
+    {id: 'avocado', name: 'Es Bucin Avocado', price: 10000,img:'avocado.jpg' },
+    {id: 'bubblegum', name: 'Es Bucin Bubblegum', price: 10000,img:'bublegum.jpg' },
+    {id: 'jeruk', name: 'Es Bucin Jeruk', price: 10000,img:'jeruk.jpg' },
+  ];
+
+  let cart = JSON.parse(localStorage.getItem('cart')) || {};
+  let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+  const pages = document.querySelectorAll('.page');
+  const navLinks = document.querySelectorAll('nav ul li a');
+
+  function showPageByHash() {
+    let hash = location.hash.replace('#', '');
+    if (!hash) hash = 'home'; // default ke home
+    if (!['home','menu','cart','payment','history'].includes(hash)) hash = 'home';
+    showPage(hash);
+  }
+
+  function showPage(pageId) {
+    pages.forEach(p => {
+      p.style.display = p.id === pageId ? 'block' : 'none';
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.dataset.page === pageId);
+    });
+    if(pageId === 'menu') renderMenu();
+    if(pageId === 'cart') renderCart();
+    if(pageId === 'history') renderHistory();
+    if(pageId === 'payment') resetPayment();
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      showPage(link.dataset.page);
+    });
+  });
+
+  window.addEventListener('hashchange', showPageByHash);
+
+  const homeSection = document.getElementById('home');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 50) {
+      homeSection.classList.add('scrolled');
+    } else {
+      homeSection.classList.remove('scrolled');
+    }
+  });
+
+  function renderMenu() {
+    const menuList = document.getElementById('menu-list');
+    menuList.innerHTML = '';
+    menuItems.forEach(item => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <h3>${item.name}</h3>
+        <p>Harga: Rp${item.price.toLocaleString('id-ID')}</p>
+        <button data-id="${item.id}">Tambah ke Keranjang</button>
+      `;
+      menuList.appendChild(li);
+    });
+
+    menuList.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        if(cart[id]) {
+          cart[id].qty++;
+        } else {
+          const menuItem = menuItems.find(m => m.id === id);
+          cart[id] = { ...menuItem, qty: 1 };
+        }
+        saveCart();
+        alert(`${cart[id].name} berhasil ditambahkan ke keranjang.`);
+      });
+    });
+  }
+
+  function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  // Render cart
+  function renderCart() {
+    const cartContent = document.getElementById('cart-content');
+    const keys = Object.keys(cart);
+    if(keys.length === 0) {
+      cartContent.innerHTML = '<p class="empty">Keranjang kosong.</p>';
+      return;
+    }
+    let html = `<table>
+      <thead>
+        <tr>
+          <th>Minuman</th>
+          <th>Harga</th>
+          <th>Jumlah</th>
+          <th>Subtotal</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+    `;
+    let total = 0;
+    keys.forEach(id => {
+      const item = cart[id];
+      const subtotal = item.price * item.qty;
+      total += subtotal;
+      html += `
+        <tr>
+          <td>${item.name}</td>
+          <td>Rp${item.price.toLocaleString('id-ID')}</td>
+          <td>${item.qty}</td>
+          <td>Rp${subtotal.toLocaleString('id-ID')}</td>
+          <td>
+            <button class="btn-decrease" data-id="${id}">-</button>
+            <button class="btn-increase" data-id="${id}">+</button>
+            <button class="btn-remove" data-id="${id}">Hapus</button>
+          </td>
+        </tr>
+      `;
+    });
+    html += `</tbody></table>`;
+    html += `<div class="total">Total: Rp${total.toLocaleString('id-ID')}</div>`;
+    html += `<button class="btn-pay">Lanjut ke Pembayaran</button>`;
+    cartContent.innerHTML = html;
+
+    cartContent.querySelectorAll('.btn-increase').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        cart[id].qty++;
+        saveCart();
+        renderCart();
+      });
+    });
+    cartContent.querySelectorAll('.btn-decrease').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        if(cart[id].qty > 1) {
+          cart[id].qty--;
+        } else {
+          delete cart[id];
+        }
+        saveCart();
+        renderCart();
+      });
+    });
+    cartContent.querySelectorAll('.btn-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        delete cart[id];
+        saveCart();
+        renderCart();
+      });
+    });
+    cartContent.querySelector('.btn-pay').addEventListener('click', () => {
+      if(keys.length === 0) {
+        alert('Keranjang kosong, silakan tambah produk terlebih dahulu.');
+        return;
+      }
+      location.hash = 'payment'; 
+    });
+  }
+
+  function resetPayment() {
+    document.getElementById('payment-form').reset();
+    const statusDiv = document.getElementById('payment-status');
+    statusDiv.textContent = '';
+    statusDiv.className = 'status';
+  }
+
+  document.getElementById('payment-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const method = document.getElementById('payment-method').value;
+    if(!method) {
+      alert('Silakan pilih metode pembayaran.');
+      return;
+    }
+    const statusDiv = document.getElementById('payment-status');
+    statusDiv.textContent = 'Menunggu pembayaran...';
+    statusDiv.className = 'status pending';
+
+    setTimeout(() => {
+      statusDiv.textContent = 'Pembayaran berhasil! Terima kasih.';
+      statusDiv.className = 'status success';
+
+      saveTransaction(method);
+
+      cart = {};
+      saveCart();
+
+      setTimeout(() => {
+        location.hash = 'history'; 
+      }, 3000);
+    }, 3000);
+  });
+
+  function saveTransaction(method) {
+    const date = new Date();
+    const items = Object.values(cart);
+    if(items.length === 0) return; // jangan simpan transaksi kosong
+
+    let total = 0;
+    items.forEach(i => total += i.price * i.qty);
+
+    const id = 'TRX' + date.getTime() + Math.floor(Math.random() * 1000);
+
+    let receipt = `--- Bukti Pembayaran Drinkss Team ---\n`;
+    receipt += `ID Transaksi: ${id}\n`;
+    receipt += `Tanggal: ${date.toLocaleString('id-ID')}\n`;
+    receipt += `Metode Pembayaran: ${method.toUpperCase()}\n\n`;
+    receipt += `Daftar Pesanan:\n`;
+    items.forEach(i => {
+      receipt += `- ${i.name} x${i.qty} = Rp${(i.price * i.qty).toLocaleString('id-ID')}\n`;
+    });
+    receipt += `\nTotal: Rp${total.toLocaleString('id-ID')}\n`;
+    receipt += `Terima kasih telah berbelanja di Drinkss Team!`;
+
+    transactions.push({
+      id,
+      date: date.toISOString(),
+      method,
+      items,
+      total,
+      receipt,
+    });
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+  }
+
+  function renderHistory() {
+    const historyContent = document.getElementById('history-content');
+    if(transactions.length === 0) {
+      historyContent.innerHTML = '<p class="empty">Belum ada riwayat transaksi.</p>';
+      return;
+    }
+    let html = `<table>
+      <thead>
+        <tr>
+          <th>ID Transaksi</th>
+          <th>Tanggal</th>
+          <th>Metode</th>
+          <th>Total</th>
+          <th>Bukti Pembayaran</th>
+        </tr>
+      </thead>
+      <tbody>
+    `;
+    transactions.forEach(trx => {
+      html += `
+        <tr>
+          <td>${trx.id}</td>
+          <td>${new Date(trx.date).toLocaleString('id-ID')}</td>
+          <td>${trx.method.toUpperCase()}</td>
+          <td>Rp${trx.total.toLocaleString('id-ID')}</td>
+          <td><button class="btn-show-receipt" data-id="${trx.id}">Lihat Bukti</button></td>
+        </tr>
+      `;
+    });
+    html += `</tbody></table><div id="receipt-container"></div>`;
+    historyContent.innerHTML = html;
+
+    historyContent.querySelectorAll('.btn-show-receipt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const trx = transactions.find(t => t.id === id);
+        if(!trx) return;
+        const container = document.getElementById('receipt-container');
+        container.innerHTML = `<pre class="receipt">${trx.receipt}</pre>`;
+        container.scrollIntoView({behavior: 'smooth'});
+      });
+    });
+  }
+
+  showPageByHash();
+</script>
+</body>
+</html>
+</content>
+</create_file>
